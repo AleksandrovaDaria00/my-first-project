@@ -5,6 +5,23 @@ import datetime
 import time
 import pygame
 
+
+def set():
+    ren = sd.askstring('Время напоминания', 'Введите время напоминания в формате чч:мм (в 24ч. формате)')
+    if ren:
+        try:
+            hour = int(ren.split(':')[0])
+            minute = int(ren.split(':')[1])
+            now = datetime.datetime.now()
+            print(now)
+            dt = now.replace(hour=hour, minute=minute)
+            print(dt)
+            t = dt.timestamp()
+            print(t)
+        except Exception as e:
+            mb.showerror('Ошибка!', f'Произошла ошибка {e}')
+
+
 window = Tk()
 window.title('Напоминание')
 label = Label(text='Установите напоминание')
