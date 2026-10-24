@@ -22,6 +22,36 @@ def update_third_currency_label(event):
     name_currency_third.config(text=name)
 
 
+def exchange():
+    code = combobox1.get()
+    code2 = combobox2.get()
+    target_code = combobox3.get()
+
+    if code and code2 and target_code:
+        try:
+            response1 = requests.get(f'https://open.er-api.com/v6/latest/{code}')
+            response1.raise_for_status()
+            data1 = response1.json()
+            response2 = requests.get(f'https://open.er-api.com/v6/latest/{code2}')
+            response2.raise_for_status()
+            data2 = response2.json()
+            if target_code in data1['rates'] and target_code in data2['rates']:
+                exchange_rate1 = data1['rates'][target_code]
+                exchange_rate2 = data2['rates'][target_code]
+                mb.showinfo('Курс обмена',
+                            f'1 {code} = {exchange_rate1:.2f} {target_code}\n'
+                            f'1 {code2} = {exchange_rate2:.2f} {target_code}'
+                            )
+            else:
+                mb.showerror('Ошибка',
+                            f'Валюта не найдена')
+        except Exception as er:
+            mb.showerror('Ошибка', er)
+
+    else:
+        mb.showwarning('Внимание', 'Введите код валюты')
+
+
 currencies = {
     'EUR': 'Евро',
     'USD': 'Американский доллар',
