@@ -16,6 +16,12 @@ def update_second_currency_label(event):
     name_currency_second.config(text=name)
 
 
+def update_third_currency_label(event):
+    code = combobox3.get()
+    name = currencies[code]
+    name_currency_third.config(text=name)
+
+
 currencies = {
     'EUR': 'Евро',
     'USD': 'Американский доллар',
@@ -55,6 +61,16 @@ combobox2.bind('<<ComboboxSelected>>', update_second_currency_label)
 
 name_currency_second = Label(root)
 name_currency_second.pack()
+
+label_3 = Label(root, text='Целевая валюта')
+label_3.pack(pady=10, padx=10)
+
+combobox3 = ttk.Combobox(root, values=popular_currencies, state='readonly')
+combobox3.pack(pady=10, padx=10)
+combobox3.bind('<<ComboboxSelected>>', update_third_currency_label)
+
+name_currency_third = Label(root)
+name_currency_third.pack()
 
 
 Button(text='Получить курс обмена', command=exchange).pack(pady=10, padx=10)
