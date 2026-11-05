@@ -5,7 +5,9 @@ import requests
 
 
 def update_currency_label(event):
-    pass
+    code = combobox.get()
+    name = cryptocurrencies[code]
+    name_currency.config(text=name)
 
 
 def exchange():
