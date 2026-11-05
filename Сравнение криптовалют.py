@@ -11,7 +11,27 @@ def update_currency_label(event):
 
 
 def exchange():
-    pass
+    code = combobox.get()
+    if code:
+        try:
+            coin_id = cryptocurrencies[code][1]
+
+            response = requests.get('https://api.coingecko.com/api/v3/simple/price', params={'ids': coin_id, 'vs_currencies': 'usd'}, timeout=10)
+
+            response.raise_for_status()
+            data = response.json()
+
+            if coin_id in data and 'usd' in data[coin_id]:
+                exchange_rate = data[coin_id]['usd']
+                mb.showinfo('Курс криптовалюты',f'1 {code} = {exchange_rate:,.2f} USD')
+            else:
+                mb.showerror('Ошибка', 'Курс криптовалюты не найден')
+
+        except Exception as e:
+            mb.showerror('Ошибка', f'Произошла ошибка: {e}')
+
+    else:
+        mb.showwarning('Внимание', 'Выберите криптовалюту')
 
 
 cryptocurrencies = {
